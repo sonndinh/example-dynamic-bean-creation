@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: dynamicBeanCreation
+netty:
+  default:
+    allocator:
+      max-order: 3
+---
+participants:
+  first:
+    username: first
+    writers-class-names:
+      - "com.example.FirstSubclass"
+      - "com.example.SecondSubclass"
+      - "com.example.SecondSubclass"
