@@ -11,6 +11,6 @@ public class DoSomething implements Runnable {
 
     @Override
     public void run() {
-        LOG.info("Simple Job every 10 seconds: {}", new SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(new Date()));
+        LOG.info("Simple Job every 5 seconds: {}", new SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(new Date()));
     }
 }

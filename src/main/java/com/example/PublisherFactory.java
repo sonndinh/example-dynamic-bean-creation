@@ -1,44 +1,46 @@
 package com.example;
 
 import io.micronaut.context.BeanContext;
-import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.core.beans.BeanIntrospection;
 import io.micronaut.core.reflect.ClassUtils;
 import io.micronaut.core.type.Argument;
+import io.micronaut.logging.LogLevel;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.TaskScheduler;
 import jakarta.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @Factory
-public class ParticipantFactory {
-
+public class PublisherFactory {
     private final BeanContext beanContext;
     private final TaskScheduler taskScheduler;
-    ParticipantFactory(BeanContext beanContext,
-                       @Named(TaskExecutors.SCHEDULED) TaskScheduler taskScheduler) {
+    private static final Logger LOG = LoggerFactory.getLogger(PublisherFactory.class);
+
+    PublisherFactory(BeanContext beanContext, @Named(TaskExecutors.SCHEDULED) TaskScheduler taskScheduler) {
         this.beanContext = beanContext;
         this.taskScheduler = taskScheduler;
     }
 
-    @EachBean(ParticipantConfiguration.class)
-    Participant createParticipant(ParticipantConfiguration participantConfiguration) {
+    @EachBean(PublisherConfiguration.class)
+    Publisher createPublisher(PublisherConfiguration publisherConfiguration) {
+        LOG.info("Creating a publisher bean....");
         ClassLoader classLoader = this.getClass().getClassLoader();
-        List<AnAbstractBaseClass> writers = new ArrayList<>();
-        for (String className : participantConfiguration.getWritersClassNames()) {
+        List<AbstractWriter> writers = new ArrayList<>();
+        for (String className : publisherConfiguration.getWritersClassNames()) {
             Optional<Class> clazzOptional = ClassUtils.forName(className, classLoader);
             if (clazzOptional.isPresent()) {
                 Class clazz = clazzOptional.get();
-                if (AnAbstractBaseClass.class.isAssignableFrom(clazz)) {
+                if (AbstractWriter.class.isAssignableFrom(clazz)) {
                     Optional beanOptional = beanContext.findBean(clazz);
                     if (beanOptional.isPresent()) {
-                        AnAbstractBaseClass bean = (AnAbstractBaseClass) beanOptional.get();
+                        AbstractWriter bean = (AbstractWriter) beanOptional.get();
                         writers.add(bean);
                     } else {
                         BeanIntrospection introspection = BeanIntrospection.getIntrospection(clazz);
@@ -51,13 +53,13 @@ public class ParticipantFactory {
                                 args[count++] = null;
                             }
                         }
-                        AnAbstractBaseClass writer = (AnAbstractBaseClass) introspection.instantiate(args);
+                        AbstractWriter writer = (AbstractWriter) introspection.instantiate(args);
                         beanContext.registerSingleton(clazz, writer);
                         writers.add(writer);
                     }
                 }
             }
-;        }
-        return new Participant(participantConfiguration.getUsername(), writers);
+        }
+        return new Publisher(writers);
     }
 }

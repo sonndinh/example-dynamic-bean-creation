@@ -7,9 +7,14 @@ netty:
       max-order: 3
 ---
 participants:
-  first:
+  First Participant:
     username: first
-    writers-class-names:
-      - "com.example.FirstSubclass"
-      - "com.example.SecondSubclass"
-      - "com.example.SecondSubclass"
+    publishers:
+      First Publisher:
+        writers-class-names:
+          - "com.example.FirstSubclass"
+          - "com.example.SecondSubclass"
+          - "com.example.SecondSubclass"
+      Second Publisher:
+        writers-class-names:
+          - "com.example.SecondSubclass"

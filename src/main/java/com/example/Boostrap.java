@@ -21,7 +21,7 @@ public class Boostrap implements ApplicationEventListener<ServerStartupEvent> {
 
     @Override
     public void onApplicationEvent(ServerStartupEvent event) {
-        LOG.info("loading participants beans upon application startup");
-        beanContext.getBeansOfType(Participant.class);
+        LOG.info("Loading publisher beans upon application startup");
+        beanContext.getBeansOfType(Publisher.class);
     }
 }
