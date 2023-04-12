@@ -17,11 +17,11 @@ class ParticipantTest {
 
     @Test
     void participantBeans() {
-        Collection<Participant> participants = beanContext.getBeansOfType(Participant.class);
-        assertEquals(1, participants.size());
+        Collection<Publisher> publishers = beanContext.getBeansOfType(Publisher.class);
+        assertEquals(2, publishers.size());
         Collection<SecondSubclass> secondSubclasses = beanContext.getBeansOfType(SecondSubclass.class);
-        assertEquals(1, participants.size());
+        assertEquals(1, secondSubclasses.size());
         Collection<FirstSubclass> firstSubclasses = beanContext.getBeansOfType(FirstSubclass.class);
-        assertEquals(1, participants.size());
+        assertEquals(1, firstSubclasses.size());
     }
 }
