@@ -6,10 +6,24 @@ netty:
     allocator:
       max-order: 3
 ---
+community-connector:
+  topics:
+    topic-organization:
+      type: Organization
+      dpd-entity: organizations
+    topic-service:
+      type: Service
+      dpd-entity: services
+
 participants:
-  first:
+  First Participant:
     username: first
-    writers-class-names:
-      - "com.example.FirstSubclass"
-      - "com.example.SecondSubclass"
-      - "com.example.SecondSubclass"
+    publishers:
+      First Publisher:
+        writers-class-names:
+          - "com.example.FirstSubclass"
+          - "com.example.SecondSubclass"
+          - "com.example.SecondSubclass"
+      Second Publisher:
+        writers-class-names:
+          - "com.example.SecondSubclass"

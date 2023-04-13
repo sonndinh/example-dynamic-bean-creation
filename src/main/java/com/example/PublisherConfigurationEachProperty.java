@@ -2,27 +2,25 @@ package com.example;
 
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-@EachProperty("participants")
-public class ParticipantConfigurationEachProperty implements ParticipantConfiguration {
+@EachProperty("participants.publishers")
+public class PublisherConfigurationEachProperty implements PublisherConfiguration {
     private final String name;
-    private String username;
     private List<String> writersClassNames;
+    private static final Logger LOG = LoggerFactory.getLogger(PublisherConfigurationEachProperty.class);
 
-    public ParticipantConfigurationEachProperty(@Parameter String name) {
+    public PublisherConfigurationEachProperty(@Parameter String name) {
         this.name = name;
+        LOG.info("Read configuration for publisher: " + name);
     }
 
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -32,9 +30,5 @@ public class ParticipantConfigurationEachProperty implements ParticipantConfigur
 
     public void setWritersClassNames(List<String> writersClassNames) {
         this.writersClassNames = writersClassNames;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }
