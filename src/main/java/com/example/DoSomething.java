@@ -7,10 +7,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DoSomething implements Runnable {
-    private static final Logger LOG = LoggerFactory.getLogger(FirstSubclass.class);
+    String topic;
+    private static final Logger LOG = LoggerFactory.getLogger(Topic.class);
+
+    DoSomething() {
+        topic = null;
+    }
+
+    DoSomething(String topic) {
+        this.topic = topic;
+    }
 
     @Override
     public void run() {
-        LOG.info("Simple Job every 5 seconds: {}", new SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(new Date()));
+        LOG.info("Topic type: " + topic + " -- Simple Job every 5 seconds: {}", new SimpleDateFormat("dd/M/yyyy hh:mm:ss").format(new Date()));
     }
 }

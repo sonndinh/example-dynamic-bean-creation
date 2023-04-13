@@ -6,6 +6,15 @@ netty:
     allocator:
       max-order: 3
 ---
+community-connector:
+  topics:
+    topic-organization:
+      type: Organization
+      dpd-entity: organizations
+    topic-service:
+      type: Service
+      dpd-entity: services
+
 participants:
   First Participant:
     username: first
